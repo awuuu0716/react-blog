@@ -8,6 +8,7 @@ import Header from '../Header';
 import { getMe } from '../../WebAPI';
 import { getAuthToken } from '../../utils';
 import { AuthContext } from '../../contexts';
+import NewPostPage from '../../pages/NewPostPage'
 const Root = styled.div`
   padding-top: 64px;
 `;
@@ -34,6 +35,9 @@ function App() {
             </Route>
             <Route path="/post/:id">
               <PostPage />
+            </Route>
+            <Route path="/new-post">
+              <NewPostPage />
             </Route>
           </Switch>
         </Router>
