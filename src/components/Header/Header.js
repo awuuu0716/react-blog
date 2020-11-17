@@ -18,8 +18,12 @@ const HeaderContainer = styled.div`
   background: white;
 `;
 
-const Brand = styled.div`
+const Brand = styled(Link)`
+  color: black;
+  text-decoration: none;
+  user-select: none;
   font-size: 32px;
+  font-weight: bold;
 `;
 
 const NavbarList = styled.div`
@@ -64,14 +68,17 @@ export default function Header() {
     setUser(null);
     if (pathname !== '/') history.push('/');
   };
-  
+
   return (
     <HeaderContainer>
       <LeftContainer>
-        <Brand>My first Blog</Brand>
+        <Brand to="/">Blog</Brand>
         <NavbarList>
           <Nav to="/" $active={pathname === '/'}>
             HomePage
+          </Nav>
+          <Nav to="/about" $active={pathname === '/about'}>
+            About
           </Nav>
           {user && (
             <Nav to="/new-post" $active={pathname === '/new-post'}>
@@ -84,6 +91,11 @@ export default function Header() {
         {!user && (
           <Nav to="/login" $active={pathname === '/login'}>
             Log in
+          </Nav>
+        )}
+        {!user && (
+          <Nav to="/sign-up" $active={pathname === '/sign-up'}>
+            Sign up
           </Nav>
         )}
         {user && <Nav onClick={handleLogout}>log out</Nav>}

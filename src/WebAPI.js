@@ -30,6 +30,19 @@ export const login = (username, password) =>
     }),
   }).then((res) => res.json());
 
+export const signUp = (nickname, username, password) =>
+  fetch(`${BASE_URL}/register`, {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify({
+      nickname,
+      username,
+      password,
+    }),
+  }).then((res) => res.json());
+
 export const getMe = () => {
   const token = getAuthToken();
   return fetch(`${BASE_URL}/me`, {

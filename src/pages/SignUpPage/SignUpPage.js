@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
-import { login, getMe } from '../../WebAPI';
+import { signUp, getMe } from '../../WebAPI';
 import { setAuthToken } from '../../utils';
 import { AuthContext } from '../../contexts';
 
@@ -23,17 +23,18 @@ const Form = styled.form`
 `;
 // submit 需加上不能一直按的功能
 
-export default function LoginPage() {
+export default function SignUpPage() {
   const { setUser } = useContext(AuthContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [nickname, setNickname] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const history = useHistory();
 
   const handleSubmit = (e) => {
     setErrorMessage('');
     e.preventDefault();
-    login(username, password).then((data) => {
+    signUp(nickname, username, password).then((data) => {
       if (data.ok === 0) return setErrorMessage(data.message);
       setAuthToken(data.token);
 
@@ -51,6 +52,14 @@ export default function LoginPage() {
   return (
     <Form onSubmit={handleSubmit}>
       <div>
+        nickname:
+        <input
+          value={nickname}
+          onChange={(e) => setNickname(e.target.value)}
+          required
+        />
+      </div>
+      <div>
         username:
         <input
           value={username}
@@ -67,7 +76,8 @@ export default function LoginPage() {
           required
         />
       </div>
-      <button type="submit">Log in</button>
+
+      <button type="submit">Sign Up</button>
       {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
     </Form>
   );

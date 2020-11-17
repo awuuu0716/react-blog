@@ -2,13 +2,17 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 import LoginPage from '../../pages/LoginPage';
+import SignUpPage from '../../pages/SignUpPage';
 import HomePage from '../../pages/HomePage';
 import PostPage from '../../pages/PostPage';
+import NewPostPage from '../../pages/NewPostPage';
+import AboutPage from '../../pages/AboutPage';
 import Header from '../Header';
 import { getMe } from '../../WebAPI';
 import { getAuthToken } from '../../utils';
 import { AuthContext } from '../../contexts';
-import NewPostPage from '../../pages/NewPostPage'
+
+
 const Root = styled.div`
   padding-top: 64px;
 `;
@@ -38,6 +42,12 @@ function App() {
             </Route>
             <Route path="/new-post">
               <NewPostPage />
+            </Route>
+            <Route path="/about">
+              <AboutPage />
+            </Route>
+            <Route path="/sign-up">
+              <SignUpPage />
             </Route>
           </Switch>
         </Router>
