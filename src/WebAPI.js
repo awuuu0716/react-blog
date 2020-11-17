@@ -2,10 +2,16 @@ import { getAuthToken } from './utils';
 
 const BASE_URL = 'https://student-json-api.lidemy.me';
 
-export const getPosts = () => {
-  return fetch(`${BASE_URL}/posts?_sort=createdAt&_order=desc`).then((res) =>
+export const getAllPosts = () => {
+  return fetch(`${BASE_URL}/posts?_sort=id&_order=desc`).then((res) =>
     res.json()
   );
+};
+
+export const getPaginatePosts = (page) => {
+  return fetch(
+    `${BASE_URL}/posts?_page=${page}&_limit=5&_sort=id&_order=desc`
+  ).then((res) => res.json());
 };
 
 export const getPost = (id) => {
