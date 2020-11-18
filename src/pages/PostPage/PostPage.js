@@ -32,7 +32,7 @@ export default function PostPage() {
 
   useEffect(() => {
     getPost(id).then((post) => setPostData(post[0]));
-  });
+  }, []);
 
   return (
     <Root>
