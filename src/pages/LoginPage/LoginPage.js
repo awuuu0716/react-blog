@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useRef } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import { login, getMe } from '../../WebAPI';
@@ -21,7 +21,6 @@ const Form = styled.form`
   border: 1px solid #fbfbfb;
   box-shadow: 1px 1px 3px #fbfbfb;
 `;
-// submit 需加上不能一直按的功能
 
 export default function LoginPage() {
   const { setUser } = useContext(AuthContext);
@@ -29,14 +28,16 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const history = useHistory();
+  const isSubmit = useRef(false);
 
   const handleSubmit = (e) => {
     setErrorMessage('');
     e.preventDefault();
+    if (isSubmit.current) return;
+    isSubmit.current = true;
     login(username, password).then((data) => {
       if (data.ok === 0) return setErrorMessage(data.message);
       setAuthToken(data.token);
-
       getMe().then((response) => {
         if (response.ok !== 1) {
           setAuthToken('');
@@ -44,6 +45,7 @@ export default function LoginPage() {
         }
         setUser(response.data);
         history.push('/');
+        isSubmit.current = false;
       });
     });
   };

@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useRef } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import { signUp, getMe } from '../../WebAPI';
@@ -29,15 +29,17 @@ export default function SignUpPage() {
   const [password, setPassword] = useState('');
   const [nickname, setNickname] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const isSubmit = useRef(false);
   const history = useHistory();
 
   const handleSubmit = (e) => {
     setErrorMessage('');
     e.preventDefault();
+    if (isSubmit.current) return;
+    isSubmit.current = true;
     signUp(nickname, username, password).then((data) => {
       if (data.ok === 0) return setErrorMessage(data.message);
       setAuthToken(data.token);
-
       getMe().then((response) => {
         if (response.ok !== 1) {
           setAuthToken('');
@@ -45,6 +47,7 @@ export default function SignUpPage() {
         }
         setUser(response.data);
         history.push('/');
+        isSubmit.current = false;
       });
     });
   };

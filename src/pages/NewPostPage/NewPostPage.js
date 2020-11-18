@@ -1,4 +1,4 @@
-import { useState} from 'react';
+import { useState, useRef } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import { newPost } from '../../WebAPI';
@@ -68,13 +68,17 @@ export default function NewPostPage() {
   const [content, setContent] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const history = useHistory();
+  const isSubmit = useRef(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    newPost(title, content).then((response) => {
-      if (response.ok === 0 ) return setErrorMessage(response.message);
-      history.push('/');
-    });
+    if (isSubmit.current) return
+    isSubmit.current = true;
+      newPost(title, content).then((response) => {
+        if (response.ok === 0) return setErrorMessage(response.message);
+        history.push('/');
+        isSubmit.current = false;
+      });
   };
 
   return (
